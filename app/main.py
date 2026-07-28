@@ -1,0 +1,14 @@
+from fastapi import FastAPI
+from app.api.routes import health
+
+
+app = FastAPI(
+    title="Sleep Intelligence REST API",
+    description=(
+        "Advanced REST API for sleep tracking analysis, posture evaluation, "
+        "snore detection, and AI sleep insights."
+    ),
+    version="1.0.0"
+)
+
+app.include_router(health.router)
