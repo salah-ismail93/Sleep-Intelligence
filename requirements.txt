@@ -4,3 +4,4 @@ python-dotenv
 requests
 pytest
 httpx2
+python-multipart
