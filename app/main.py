@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.routes import health, posture, snore
+from app.api.routes import health, posture, snore, sleep_score
 
 
 app = FastAPI(
@@ -14,3 +14,4 @@ app = FastAPI(
 app.include_router(health.router)
 app.include_router(posture.router)
 app.include_router(snore.router)
+app.include_router(sleep_score.router)
