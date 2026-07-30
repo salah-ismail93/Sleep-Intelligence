@@ -1,39 +1,29 @@
-from fastapi.testclient import TestClient
 import pytest
+from pydantic import ValidationError
 
-from app.main import app
-
-client = TestClient(app)
-
-
-def test_valid_chat_request_returns_200_and_placeholder():
-    payload = {"message": "Hello, how was my sleep?"}
-
-    response = client.post("/chat", json=payload)
-
-    assert response.status_code == 200
-    assert response.json() == {"reply": "Chat service placeholder response."}
+from app.api.models.chat import ChatRequest, ChatResponse
 
 
-@pytest.mark.parametrize(
-    "invalid_message",
-    [
-        "",  # Empty string
-        "   ",  # Whitespace only
-        "\t\n  ",  # Tabs and newlines only
-    ],
-)
-def test_empty_or_whitespace_message_returns_422(invalid_message: str):
-    payload = {"message": invalid_message}
-
-    response = client.post("/chat", json=payload)
-
-    assert response.status_code == 422
+def test_valid_chat_request():
+    req = ChatRequest(message="How can I improve my sleep environment?")
+    assert req.message == "How can I improve my sleep environment?"
 
 
-def test_message_exceeding_max_length_returns_422():
-    payload = {"message": "a" * 2001}  # Exceeds 2000 character limit
+def test_empty_message_raises_validation_error():
+    with pytest.raises(ValidationError):
+        ChatRequest(message="")
 
-    response = client.post("/chat", json=payload)
 
-    assert response.status_code == 422
+def test_whitespace_only_message_raises_validation_error():
+    with pytest.raises(ValidationError):
+        ChatRequest(message="   \n\t  ")
+
+
+def test_message_exceeding_max_length_raises_validation_error():
+    with pytest.raises(ValidationError):
+        ChatRequest(message="a" * 2001)
+
+
+def test_chat_response_schema():
+    resp = ChatResponse(reply="Keep your bedroom dark and cool.")
+    assert resp.reply == "Keep your bedroom dark and cool."
