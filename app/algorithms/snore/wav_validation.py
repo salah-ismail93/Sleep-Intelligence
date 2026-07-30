@@ -36,22 +36,13 @@ class WAVMetadata:
 
 
 def validate_and_extract_wav_metadata(audio_bytes: bytes) -> WAVMetadata:
-    """Validates raw audio bytes against the Version 1 PCM WAV contract.
-
-    Contract requirements:
-    - Container: valid RIFF/WAVE (UnsupportedWAVMediaTypeError)
-    - Encoding: uncompressed linear PCM / format 1 (UnsupportedWAVMediaTypeError)
-    - Sample width: 16-bit (UnsupportedWAVPropertiesError)
-    - Channels: 1 / mono (UnsupportedWAVPropertiesError)
-    - Sample rate: 8,000 to 48,000 Hz inclusive (UnsupportedWAVPropertiesError)
-    - Duration: 0.5 to 30.0 seconds inclusive (UnsupportedWAVPropertiesError)
-    - Structure: non-truncated, correct size, aligned frames, valid headers (MalformedWAVError)
-    """
-    if len(audio_bytes) < 44:
-        raise MalformedWAVError("WAV data is truncated or too short for a standard header.")
-
-    if audio_bytes[:4] != b"RIFF" or audio_bytes[8:12] != b"WAVE":
+    """Validates raw audio bytes against the Version 1 PCM WAV contract."""
+    # First check for valid RIFF/WAVE header prefix
+    if len(audio_bytes) < 12 or audio_bytes[:4] != b"RIFF" or audio_bytes[8:12] != b"WAVE":
         raise UnsupportedWAVMediaTypeError("Content is not a valid RIFF/WAVE container.")
+
+    if len(audio_bytes) < 44:
+        raise MalformedWAVError("WAV header is truncated or incomplete.")
 
     riff_declared_size = struct.unpack("<I", audio_bytes[4:8])[0]
     expected_riff_size = len(audio_bytes) - 8
@@ -115,13 +106,11 @@ def validate_and_extract_wav_metadata(audio_bytes: bytes) -> WAVMetadata:
     if not fmt_found or not data_found:
         raise MalformedWAVError("Missing required WAV fmt or data chunk.")
 
-    # Validate Container / Media Type
     if audio_format != 1:  # 1 == WAVE_FORMAT_PCM
         raise UnsupportedWAVMediaTypeError(
             f"Unsupported WAV encoding format ({audio_format}). Only uncompressed PCM is supported."
         )
 
-    # Validate Audio Properties
     if channels != 1:
         raise UnsupportedWAVPropertiesError(
             f"Unsupported channel count ({channels}). Only mono (1 channel) is supported."
