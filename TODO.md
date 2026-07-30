@@ -16,14 +16,14 @@
 
 - [x] Define the Version 1 WAV signal-processing policy and supported WAV
   properties.
-- [ ] Implement WAV contract validation with deterministic client errors.
-- [ ] Add boundary tests for encoding, sample width, channels, sample rate,
+- [x] Implement WAV contract validation with deterministic client errors.
+- [x] Add boundary tests for encoding, sample width, channels, sample rate,
   duration, truncation, and upload size.
-- [ ] Implement pure audio decoding and feature extraction.
-- [ ] Implement the non-ML snore decision logic.
+- [x] Implement pure audio decoding and feature extraction.
+- [x] Implement the non-ML snore decision logic.
 - [ ] Replace the snore service placeholder.
 - [ ] Add algorithm, service, endpoint, and invalid-audio tests.
-- [ ] Document limitations and avoid describing the detector as AI or ML.
+- [x] Document limitations and avoid describing the detector as AI or ML.
 
 ## Ollama Local AI
 

@@ -84,8 +84,32 @@ For accepted audio, the response contains:
 - `snore_detected`: a boolean decision.
 - `confidence`: a number in the inclusive range `[0.0, 1.0]`.
 
-The exact Version 1 signal-processing decision policy will be documented before
-the detector is implemented.
+`confidence` is the fraction of active frames classified as snore-like. It is a
+heuristic evidence score and is not a calibrated probability.
+
+## Version 1 Detection Policy
+
+The deterministic detector:
+
+1. Decodes validated signed 16-bit PCM samples and scales them to `[-1, 1)`.
+2. Splits the clip into 0.5-second frames with 50% overlap.
+3. Removes each frame's DC offset and applies a Hann window for spectral
+   analysis.
+4. Marks a frame active when its RMS is at least `0.01`.
+5. Marks an active frame snore-like when:
+   - Spectral centroid is at least `800 Hz`.
+   - Spectral flatness is at most `0.06`.
+6. Returns a positive decision when:
+   - At least 20% of active frames are snore-like.
+   - At least two snore-like frames are consecutive.
+
+Only active frames are included in the confidence denominator. A clip with no
+active frames returns `snore_detected: false` and `confidence: 0.0`.
+
+All thresholds are named constants in the algorithm module. They are
+dataset-specific heuristics derived from three filename-labeled example clips:
+one snore recording and two breathing recordings. The examples are not a
+clinically verified dataset, and the detector is not clinically validated.
 
 ## Security and Resource Boundaries
 
