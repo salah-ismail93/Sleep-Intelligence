@@ -37,6 +37,41 @@ class OllamaSettings:
             )
 
 
+@dataclass(frozen=True)
+class GeminiSettings:
+    """Immutable configuration settings for Gemini integration."""
+
+    api_key: str
+    model: str = "gemini-3.6-flash"
+    timeout_seconds: float = 120.0
+
+    def __post_init__(self) -> None:
+        if not self.api_key or not self.api_key.strip():
+            raise SettingsError("Gemini API key is required and cannot be blank.")
+
+        if not self.model or not self.model.strip():
+            raise SettingsError("Gemini model name cannot be blank.")
+
+        if not math.isfinite(self.timeout_seconds):
+            raise SettingsError(
+                f"Gemini timeout must be a finite number, got {self.timeout_seconds}."
+            )
+
+        if self.timeout_seconds <= 0:
+            raise SettingsError(
+                f"Gemini timeout must be a positive number, got {self.timeout_seconds}."
+            )
+
+    def __repr__(self) -> str:
+        return (
+            f"GeminiSettings(api_key='***', model={self.model!r}, "
+            f"timeout_seconds={self.timeout_seconds!r})"
+        )
+
+    def __str__(self) -> str:
+        return self.__repr__()
+
+
 def get_ollama_settings(env_file_path: Optional[str] = ".env") -> OllamaSettings:
     """Loads Ollama settings from environment variables with fallback to .env file and defaults.
 
@@ -72,3 +107,46 @@ def get_ollama_settings(env_file_path: Optional[str] = ".env") -> OllamaSettings
         model=model,
         timeout_seconds=timeout_seconds,
     )
+
+
+def get_gemini_settings(env_file_path: Optional[str] = ".env") -> GeminiSettings:
+    """Loads Gemini settings from environment variables with fallback to .env file and defaults.
+
+    Precedence order:
+    1. Operating system environment variables.
+    2. .env file variables (loaded via python-dotenv).
+    3. Default values.
+    """
+    file_env = dotenv_values(env_file_path) if env_file_path and os.path.exists(env_file_path) else {}
+
+    def get_val(key: str, default: str) -> str:
+        val = os.environ.get(key)
+        if val is not None:
+            return val
+        file_val = file_env.get(key)
+        if file_val is not None:
+            return file_val
+        return default
+
+    api_key = get_val("GEMINI_API_KEY", "")
+    model = get_val("GEMINI_MODEL", "gemini-3.6-flash")
+    raw_timeout = get_val("GEMINI_TIMEOUT_SECONDS", "120")
+
+    try:
+        timeout_seconds = float(raw_timeout)
+    except ValueError as exc:
+        raise SettingsError(
+            f"Invalid timeout value '{raw_timeout}': must be a valid number."
+        ) from exc
+
+    try:
+        return GeminiSettings(
+            api_key=api_key,
+            model=model,
+            timeout_seconds=timeout_seconds,
+        )
+    except SettingsError as exc:
+        # Guarantee raw secret is never included in SettingsError exception message
+        if api_key and api_key in str(exc):
+            raise SettingsError("Gemini settings validation failed.") from None
+        raise
