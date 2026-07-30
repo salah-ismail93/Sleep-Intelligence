@@ -8,12 +8,13 @@ The project separates deterministic research algorithms from AI integrations:
 
 - `POST /posture` exposes a local deterministic posture-classification
   algorithm based on chest-mounted IMU orientation data.
-- `POST /snore` will expose a local Version 1 signal-processing detector.
-- `POST /chat` will use Ollama as the local AI component.
+- `POST /snore` exposes a local Version 1 signal-processing detector.
+- `POST /chat` uses Ollama as the local AI component.
 - `POST /sleep_report` will use Gemini as the remote AI service.
 
-The REST foundation and stateless posture pipeline are implemented. Snore
-detection, Ollama, and Gemini integrations remain planned work.
+The REST foundation, stateless posture pipeline, Version 1 snore detector, and
+Ollama chat integration are implemented. Gemini report generation and the
+sleep-scoring algorithm remain planned work.
 
 ## Documentation
 

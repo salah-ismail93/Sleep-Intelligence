@@ -12,10 +12,10 @@ integration.
 | --- | --- | --- | --- |
 | `GET /health` | Report API availability | REST platform | Implemented |
 | `POST /posture` | Classify posture from calibrated IMU quaternions | Local deterministic research algorithm | Implemented |
-| `POST /snore` | Detect snoring in an uploaded WAV file | Local signal processing, non-ML | REST foundation implemented; detector pending |
+| `POST /snore` | Detect snoring in an uploaded WAV file | Local signal processing, non-ML | Implemented |
 | `POST /sleep_score` | Calculate a sleep score from validated metrics | Local deterministic algorithm | REST foundation implemented; scoring pending |
 | `POST /sleep_report` | Generate a structured sleep report | Gemini remote AI service | REST foundation implemented; Gemini pending |
-| `POST /chat` | Answer sleep-related questions | Ollama local AI service | REST foundation implemented; Ollama pending |
+| `POST /chat` | Answer sleep-related questions | Ollama local AI service | Implemented |
 
 The deterministic posture and snore algorithms are not presented as the
 project's local AI component. Ollama is the explicit local AI component, and
@@ -54,7 +54,7 @@ because they require state, gyroscope data, or streaming input.
 
 ### Phase 4 — Version 1 Snore Detection
 
-Status: Planned.
+Status: Complete.
 
 - Enforce the documented PCM WAV input contract.
 - Implement a local WAV signal-processing detector.
@@ -64,7 +64,7 @@ Status: Planned.
 
 ### Phase 5 — Ollama Local AI
 
-Status: Planned.
+Status: Implementation complete; local setup documentation pending.
 
 - Add an Ollama integration adapter.
 - Configure the local model through environment-based settings.

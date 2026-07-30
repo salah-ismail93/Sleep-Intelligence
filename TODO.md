@@ -27,12 +27,12 @@
 
 ## Ollama Local AI
 
-- [ ] Select and document the Ollama model.
-- [ ] Add environment-based Ollama configuration.
-- [ ] Create an Ollama integration adapter under `app/integrations/`.
-- [ ] Add timeout and unavailable-model handling.
-- [ ] Replace the chat placeholder through the service layer.
-- [ ] Add mocked integration and endpoint tests.
+- [x] Select and document the Ollama model.
+- [x] Add environment-based Ollama configuration.
+- [x] Create an Ollama integration adapter under `app/integrations/`.
+- [x] Add timeout and unavailable-model handling.
+- [x] Replace the chat placeholder through the service layer.
+- [x] Add mocked integration and endpoint tests.
 - [ ] Document local installation and model-pull instructions.
 
 ## Gemini Remote AI

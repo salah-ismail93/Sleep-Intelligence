@@ -63,7 +63,7 @@ the project's local AI component.
 `app/integrations/` isolates communication with model runtimes and external
 services.
 
-- `ollama/` will provide the local AI adapter used by `POST /chat`.
+- `ollama/` provides the local AI adapter used by `POST /chat`.
 - `gemini/` will provide the remote AI adapter used by
   `POST /sleep_report`.
 
@@ -98,9 +98,10 @@ signal-processing or threshold logic as machine learning.
 Version 1 endpoints remain stateless. Posture calibration is supplied in each
 request, and chat history is not persisted.
 
-Runtime configuration and credentials will be loaded from environment variables.
-Ollama model selection, Ollama base URL, Gemini model selection, and Gemini API
-credentials must not be hard-coded in routes or services.
+Runtime configuration is loaded from environment variables. Ollama model
+selection and base URL are configurable; Gemini model selection and API
+credentials will follow the same pattern. Provider configuration must not be
+hard-coded in routes or services.
 
 ## Deferred Capabilities
 
