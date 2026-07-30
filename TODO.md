@@ -21,8 +21,8 @@
   duration, truncation, and upload size.
 - [x] Implement pure audio decoding and feature extraction.
 - [x] Implement the non-ML snore decision logic.
-- [ ] Replace the snore service placeholder.
-- [ ] Add algorithm, service, endpoint, and invalid-audio tests.
+- [x] Replace the snore service placeholder.
+- [x] Add algorithm, service, endpoint, and invalid-audio tests.
 - [x] Document limitations and avoid describing the detector as AI or ML.
 
 ## Ollama Local AI

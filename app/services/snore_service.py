@@ -1,8 +1,8 @@
+from app.algorithms.snore.detector import SnoreDetection, detect_snore
 from app.algorithms.snore.wav_validation import (
     MalformedWAVError,
     UnsupportedWAVMediaTypeError,
     UnsupportedWAVPropertiesError,
-    validate_and_extract_wav_metadata,
 )
 from app.api.models.snore import SnoreResponse
 
@@ -26,15 +26,18 @@ class SnoreInvalidAudioError(SnoreServiceError):
 
 
 def classify_snore(audio_bytes: bytes) -> SnoreResponse:
-    """Validates snore audio bytes and returns snore analysis response schema."""
+    """Delegates audio parsing, validation, and feature detection to detect_snore,
+
+    translating algorithm-level errors into service-level exceptions.
+    """
     try:
-        validate_and_extract_wav_metadata(audio_bytes)
+        detection: SnoreDetection = detect_snore(audio_bytes)
     except UnsupportedWAVMediaTypeError as exc:
         raise SnoreUnsupportedMediaError(str(exc)) from exc
     except (UnsupportedWAVPropertiesError, MalformedWAVError) as exc:
         raise SnoreInvalidAudioError(str(exc)) from exc
 
     return SnoreResponse(
-        snore_detected=False,
-        confidence=0.0,
+        snore_detected=detection.snore_detected,
+        confidence=detection.confidence,
     )
