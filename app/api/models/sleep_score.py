@@ -9,4 +9,12 @@ class SleepScoreRequest(BaseModel):
 
 
 class SleepScoreResponse(BaseModel):
-    score: float = Field(..., ge=0.0, le=100.0)
+    score: float = Field(
+        ...,
+        ge=0.0,
+        le=100.0,
+        description=(
+            "Adult-oriented Version 1 wellness heuristic, clamped to [0.0, 100.0] "
+            "and rounded to one decimal place. It is not a clinical or diagnostic score."
+        ),
+    )

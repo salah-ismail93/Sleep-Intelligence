@@ -37,4 +37,5 @@ remote requests or consume API quota.
 - [Architecture](docs/architecture.md)
 - [Posture API contract](docs/posture_api_contract.md)
 - [Snore API contract](docs/snore_api_contract.md)
+- [Sleep-score API contract](docs/sleep_score_api_contract.md)
 - [Project TODOs](TODO.md)
