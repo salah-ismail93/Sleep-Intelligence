@@ -85,9 +85,9 @@ Status: Complete.
 
 ### Phase 7 — Hardening and Delivery
 
-Status: Planned.
+Status: Complete.
 
 - Review API errors, timeouts, and resource limits.
-- Complete the professional README and deployment instructions.
+- Complete the professional README and local environment instructions.
 - Verify the public repository contains no secrets or research-sensitive data.
 - Prepare the course demonstration and architecture documentation.

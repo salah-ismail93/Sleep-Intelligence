@@ -8,7 +8,7 @@ ongoing PhD research on wearable sleep monitoring.
 
 Version 1 is functional. The REST endpoints, deterministic algorithms, local
 Ollama integration, remote Gemini integration, validation, and automated tests
-are implemented. Deployment preparation and final hardening remain in progress.
+are implemented and documented.
 
 ## Architecture
 

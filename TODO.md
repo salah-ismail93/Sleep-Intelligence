@@ -51,7 +51,6 @@
 - [x] Add environment-based configuration validation.
 - [x] Review all API error responses and security-sensitive logging.
 - [x] Pin or otherwise lock dependency versions for reproducibility.
-- [ ] Add deployment and environment setup documentation.
 - [x] Complete the professional README.
 - [x] Verify the public repository contains no secrets, generated data, or
   private research artifacts.
