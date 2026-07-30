@@ -10,11 +10,26 @@ The project separates deterministic research algorithms from AI integrations:
   algorithm based on chest-mounted IMU orientation data.
 - `POST /snore` exposes a local Version 1 signal-processing detector.
 - `POST /chat` uses Ollama as the local AI component.
-- `POST /sleep_report` will use Gemini as the remote AI service.
+- `POST /sleep_report` uses Gemini as the remote AI service to generate
+  structured, non-diagnostic sleep-wellness reports.
 
 The REST foundation, stateless posture pipeline, Version 1 snore detector, and
-Ollama chat integration are implemented. Gemini report generation and the
-sleep-scoring algorithm remain planned work.
+Ollama chat and Gemini report integrations are implemented. The sleep-scoring
+algorithm remains planned work.
+
+## Gemini Configuration
+
+Copy the variable names from `.env.example` into your local `.env` and set the
+API key there:
+
+```text
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-3.6-flash
+GEMINI_TIMEOUT_SECONDS=120
+```
+
+Never commit the real API key. Automated tests mock Gemini and do not make
+remote requests or consume API quota.
 
 ## Documentation
 

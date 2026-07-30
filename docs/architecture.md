@@ -52,7 +52,7 @@ Version 1 algorithm responsibilities:
 - `posture`: relative-quaternion calculation, gravity projection, and stateless
   deterministic posture classification.
 - `snore`: local signal processing for validated, uncompressed 16-bit mono PCM
-  WAV clips, planned.
+  WAV clips.
 - `scoring`: deterministic sleep scoring, planned.
 
 The posture algorithm is the research contribution, but it is not labeled as
@@ -64,12 +64,27 @@ the project's local AI component.
 services.
 
 - `ollama/` provides the local AI adapter used by `POST /chat`.
-- `gemini/` will provide the remote AI adapter used by
+- `gemini/` provides the remote AI adapter used by
   `POST /sleep_report`.
 
 Services depend on stable adapter interfaces rather than provider-specific HTTP
 or SDK details. Integration failures must be translated into controlled
 application errors instead of leaking provider responses or credentials.
+
+The sleep-report request flow is:
+
+```text
+POST /sleep_report
+  -> sleep-report route
+  -> sleep-report service
+  -> Gemini adapter
+  -> remote Gemini API
+  -> validated SleepReportResponse
+```
+
+The service supplies a constrained wellness prompt and a structured response
+schema. Automated tests replace the Gemini adapter with test doubles, so they
+make no remote calls and consume no API quota.
 
 ## Endpoint-to-Component Mapping
 
@@ -99,9 +114,9 @@ Version 1 endpoints remain stateless. Posture calibration is supplied in each
 request, and chat history is not persisted.
 
 Runtime configuration is loaded from environment variables. Ollama model
-selection and base URL are configurable; Gemini model selection and API
-credentials will follow the same pattern. Provider configuration must not be
-hard-coded in routes or services.
+selection and base URL are configurable. Gemini model selection, API
+credentials, and request timeout use the same environment-based pattern.
+Provider configuration is not hard-coded in routes or services.
 
 ## Deferred Capabilities
 

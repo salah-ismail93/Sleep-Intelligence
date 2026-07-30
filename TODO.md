@@ -37,13 +37,13 @@
 
 ## Gemini Remote AI
 
-- [ ] Select and document the Gemini model.
-- [ ] Add environment-based Gemini configuration.
-- [ ] Create the Gemini integration adapter.
-- [ ] Define a constrained prompt and validated report response.
-- [ ] Add timeout, authentication, quota, and upstream-error handling.
-- [ ] Replace the sleep-report placeholder through the service layer.
-- [ ] Add mocked integration and endpoint tests.
+- [x] Select and document the Gemini model.
+- [x] Add environment-based Gemini configuration.
+- [x] Create the Gemini integration adapter.
+- [x] Define a constrained prompt and validated report response.
+- [x] Add timeout, authentication, quota, and upstream-error handling.
+- [x] Replace the sleep-report placeholder through the service layer.
+- [x] Add mocked integration and endpoint tests.
 
 ## Remaining Platform Work
 

@@ -14,7 +14,7 @@ integration.
 | `POST /posture` | Classify posture from calibrated IMU quaternions | Local deterministic research algorithm | Implemented |
 | `POST /snore` | Detect snoring in an uploaded WAV file | Local signal processing, non-ML | Implemented |
 | `POST /sleep_score` | Calculate a sleep score from validated metrics | Local deterministic algorithm | REST foundation implemented; scoring pending |
-| `POST /sleep_report` | Generate a structured sleep report | Gemini remote AI service | REST foundation implemented; Gemini pending |
+| `POST /sleep_report` | Generate a structured sleep report | Gemini remote AI service | Implemented |
 | `POST /chat` | Answer sleep-related questions | Ollama local AI service | Implemented |
 
 The deterministic posture and snore algorithms are not presented as the
@@ -75,7 +75,7 @@ Status: Implementation complete; local setup documentation pending.
 
 ### Phase 6 — Gemini Remote AI
 
-Status: Planned.
+Status: Complete.
 
 - Add a Gemini integration adapter.
 - Keep credentials outside source control.
