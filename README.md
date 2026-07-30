@@ -1,2 +1,23 @@
-# Sleep-Intelligence
-Sleep Intelligence REST API is a final course project in my PhD
+# Sleep Intelligence REST API
+
+Sleep Intelligence is a FastAPI service for sleep-related analysis. It is a
+course project in Cloud Architectures and RESTful Services and is aligned with
+ongoing PhD research on wearable sleep monitoring.
+
+The project separates deterministic research algorithms from AI integrations:
+
+- `POST /posture` exposes a local deterministic posture-classification
+  algorithm based on chest-mounted IMU orientation data.
+- `POST /snore` will expose a local Version 1 signal-processing detector.
+- `POST /chat` will use Ollama as the local AI component.
+- `POST /sleep_report` will use Gemini as the remote AI service.
+
+The REST foundation and stateless posture pipeline are implemented. Snore
+detection, Ollama, and Gemini integrations remain planned work.
+
+## Documentation
+
+- [Project plan](docs/project_plan.md)
+- [Architecture](docs/architecture.md)
+- [Posture API contract](docs/posture_api_contract.md)
+- [Project TODOs](TODO.md)
