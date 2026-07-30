@@ -52,7 +52,7 @@
 - [ ] Review all API error responses and security-sensitive logging.
 - [ ] Pin or otherwise lock dependency versions for reproducibility.
 - [ ] Add deployment and environment setup documentation.
-- [ ] Complete the professional README.
+- [x] Complete the professional README.
 - [ ] Verify the public repository contains no secrets, generated data, or
   private research artifacts.
 - [ ] Prepare the final course demonstration.

@@ -4,20 +4,56 @@ Sleep Intelligence is a FastAPI service for sleep-related analysis. It is a
 course project in Cloud Architectures and RESTful Services and is aligned with
 ongoing PhD research on wearable sleep monitoring.
 
-The project separates deterministic research algorithms from AI integrations:
+## Project Status
 
-- `POST /posture` exposes a local deterministic posture-classification
-  algorithm based on chest-mounted IMU orientation data.
-- `POST /snore` exposes a local Version 1 signal-processing detector.
-- `POST /sleep_score` exposes a transparent adult-oriented wellness heuristic
-  based on sleep duration and efficiency.
-- `POST /chat` uses Ollama as the local AI component.
-- `POST /sleep_report` uses Gemini as the remote AI service to generate
-  structured, non-diagnostic sleep-wellness reports.
+Version 1 is functional. The REST endpoints, deterministic algorithms, local
+Ollama integration, remote Gemini integration, validation, and automated tests
+are implemented. Deployment preparation and final hardening remain in progress.
 
-The REST foundation, stateless posture pipeline, Version 1 snore detector, and
-sleep-scoring algorithm are implemented, along with the Ollama chat and Gemini
-report integrations.
+## Architecture
+
+```text
+Client
+  -> FastAPI routes
+  -> Services
+  -> Algorithms or integrations
+  -> Typed JSON responses
+```
+
+Routes own HTTP concerns, services orchestrate use cases, algorithms remain
+independent of FastAPI, and integrations isolate Ollama and Gemini SDK details.
+See the [architecture document](docs/architecture.md) for the complete design.
+
+## API Endpoints
+
+| Method | Endpoint | Purpose | Component |
+| --- | --- | --- | --- |
+| `GET` | `/health` | Report API availability | REST platform |
+| `POST` | `/posture` | Classify posture from calibrated IMU quaternions | Deterministic local algorithm |
+| `POST` | `/snore` | Detect snoring in a validated WAV upload | Deterministic local signal processing |
+| `POST` | `/sleep_score` | Calculate an adult-oriented wellness heuristic | Deterministic local algorithm |
+| `POST` | `/sleep_report` | Generate a structured sleep-wellness report | Remote Gemini integration |
+| `POST` | `/chat` | Answer general sleep-education questions | Local Ollama integration |
+
+Interactive request schemas and examples are available through `/docs` while
+the application is running.
+
+## Technology Stack
+
+- FastAPI and Pydantic for the REST API and validation
+- NumPy for deterministic audio feature extraction
+- Ollama with `llama3.2:3b` for the local AI component
+- Google Gemini through the `google-genai` SDK for remote AI reports
+- Pytest and FastAPI TestClient for automated testing
+
+## AI Requirement Mapping
+
+- **Local AI:** Ollama powers `POST /chat`.
+- **Remote AI:** Gemini powers `POST /sleep_report`.
+- **Research component:** The IMU posture pipeline is deterministic and is not
+  presented as machine learning.
+- **Local signal processing:** The Version 1 snore detector is heuristic,
+  non-ML processing.
 
 ## Local Setup
 
@@ -112,6 +148,29 @@ python -m pytest -q
 Automated tests mock Ollama and Gemini. They require neither a running Ollama
 service nor Gemini API access, and they do not consume remote API quota.
 
+## Testing Strategy
+
+The test suite covers request validation, HTTP status mapping, pure algorithms,
+service orchestration, provider failure handling, and secret-safe error
+responses. AI integrations are replaced with test doubles in automated tests;
+live provider checks are performed separately during manual verification.
+
+## Safety and Research Limitations
+
+- This project provides research-oriented and general wellness services. It is
+  not a medical device and does not diagnose or treat sleep disorders.
+- Posture classification uses a stateless Version 1 heuristic and requires
+  calibrated device orientation.
+- Snore detection uses dataset-specific signal-processing thresholds derived
+  from a small set of examples and is not clinically validated.
+- The sleep score is a transparent adult-oriented wellness heuristic, not a
+  clinical score or validated research instrument.
+- Snore-event and posture-change counts do not affect Version 1 scoring because
+  validated reference ranges are not available.
+- Gemini reports and Ollama responses are constrained to general education and
+  wellness guidance. Medical concerns should be discussed with a qualified
+  healthcare professional.
+
 ## Documentation
 
 - [Project plan](docs/project_plan.md)
@@ -120,3 +179,7 @@ service nor Gemini API access, and they do not consume remote API quota.
 - [Snore API contract](docs/snore_api_contract.md)
 - [Sleep-score API contract](docs/sleep_score_api_contract.md)
 - [Project TODOs](TODO.md)
+
+## License
+
+This project is available under the [MIT License](LICENSE).
