@@ -34,7 +34,7 @@
 - [x] Add timeout and unavailable-model handling.
 - [x] Replace the chat placeholder through the service layer.
 - [x] Add mocked integration and endpoint tests.
-- [ ] Document local installation and model-pull instructions.
+- [x] Document local installation and model-pull instructions.
 
 ## Gemini Remote AI
 
