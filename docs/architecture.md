@@ -53,7 +53,13 @@ Version 1 algorithm responsibilities:
   deterministic posture classification.
 - `snore`: local signal processing for validated, uncompressed 16-bit mono PCM
   WAV clips.
-- `scoring`: deterministic sleep scoring, planned.
+- `scoring`: a pure, deterministic adult-oriented wellness heuristic based on
+  sleep duration and efficiency.
+
+The Version 1 scoring request retains snore-event and posture-change counts for
+future research compatibility, but those counts do not affect the score until
+validated reference ranges are available. The result is not a clinical score,
+diagnostic result, or validated research instrument.
 
 The posture algorithm is the research contribution, but it is not labeled as
 the project's local AI component.

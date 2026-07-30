@@ -9,13 +9,15 @@ The project separates deterministic research algorithms from AI integrations:
 - `POST /posture` exposes a local deterministic posture-classification
   algorithm based on chest-mounted IMU orientation data.
 - `POST /snore` exposes a local Version 1 signal-processing detector.
+- `POST /sleep_score` exposes a transparent adult-oriented wellness heuristic
+  based on sleep duration and efficiency.
 - `POST /chat` uses Ollama as the local AI component.
 - `POST /sleep_report` uses Gemini as the remote AI service to generate
   structured, non-diagnostic sleep-wellness reports.
 
 The REST foundation, stateless posture pipeline, Version 1 snore detector, and
-Ollama chat and Gemini report integrations are implemented. The sleep-scoring
-algorithm remains planned work.
+sleep-scoring algorithm are implemented, along with the Ollama chat and Gemini
+report integrations.
 
 ## Gemini Configuration
 

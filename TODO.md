@@ -9,10 +9,11 @@
 - [x] Add request validation, response models, OpenAPI contracts, and endpoint
   tests.
 - [x] Implement and integrate the stateless deterministic posture pipeline.
+- [x] Implement and integrate the transparent Version 1 sleep-score heuristic.
 - [x] Identify Ollama as the local AI component.
 - [x] Identify Gemini as the remote AI service.
 
-## Next — Version 1 Snore Detection
+## Version 1 Snore Detection
 
 - [x] Define the Version 1 WAV signal-processing policy and supported WAV
   properties.
@@ -47,7 +48,6 @@
 
 ## Remaining Platform Work
 
-- [ ] Implement the sleep-score algorithm.
 - [ ] Add configuration validation and structured logging.
 - [ ] Review all API error responses and security-sensitive logging.
 - [ ] Pin or otherwise lock dependency versions for reproducibility.

@@ -13,7 +13,7 @@ integration.
 | `GET /health` | Report API availability | REST platform | Implemented |
 | `POST /posture` | Classify posture from calibrated IMU quaternions | Local deterministic research algorithm | Implemented |
 | `POST /snore` | Detect snoring in an uploaded WAV file | Local signal processing, non-ML | Implemented |
-| `POST /sleep_score` | Calculate a sleep score from validated metrics | Local deterministic algorithm | REST foundation implemented; scoring pending |
+| `POST /sleep_score` | Calculate a sleep score from validated metrics | Local deterministic algorithm | Implemented |
 | `POST /sleep_report` | Generate a structured sleep report | Gemini remote AI service | Implemented |
 | `POST /chat` | Answer sleep-related questions | Ollama local AI service | Implemented |
 
@@ -87,7 +87,6 @@ Status: Complete.
 
 Status: Planned.
 
-- Replace remaining placeholders.
 - Add configuration validation and structured logging.
 - Review API errors, timeouts, and resource limits.
 - Complete the professional README and deployment instructions.
