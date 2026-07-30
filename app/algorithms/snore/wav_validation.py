@@ -3,12 +3,24 @@ import struct
 
 
 class InvalidWAVFormatError(ValueError):
-    """Raised when WAV container or audio properties violate the supported WAV contract."""
+    """Base exception for WAV validation failures violating the contract."""
 
     pass
 
 
-class MalformedWAVError(ValueError):
+class UnsupportedWAVMediaTypeError(InvalidWAVFormatError):
+    """Raised when the payload is not a RIFF/WAVE container or uses unsupported audio encoding (non-PCM)."""
+
+    pass
+
+
+class UnsupportedWAVPropertiesError(InvalidWAVFormatError):
+    """Raised when audio properties (channels, sample width, sample rate, duration) violate Version 1 constraints."""
+
+    pass
+
+
+class MalformedWAVError(InvalidWAVFormatError):
     """Raised when WAV header or payload is corrupt, malformed, or truncated."""
 
     pass
@@ -27,32 +39,19 @@ def validate_and_extract_wav_metadata(audio_bytes: bytes) -> WAVMetadata:
     """Validates raw audio bytes against the Version 1 PCM WAV contract.
 
     Contract requirements:
-    - Container: valid RIFF/WAVE
-    - RIFF declared size must equal len(audio_bytes) - 8
-    - Encoding: uncompressed linear PCM (format 1)
-    - Sample width: 16-bit (2 bytes)
-    - Channels: 1 (mono)
-    - Sample rate: 8,000 to 48,000 Hz inclusive
-    - Duration: 0.5 to 30.0 seconds inclusive
-    - Complete and aligned frame data
-    - Correct block_align and byte_rate fields
-    - Verified padding bytes for odd-sized chunks
-
-    Args:
-        audio_bytes: Raw binary payload of the uploaded audio file.
-
-    Returns:
-        WAVMetadata: Validated immutable audio metadata.
-
-    Raises:
-        MalformedWAVError: If the binary data is truncated, corrupt, or unaligned.
-        InvalidWAVFormatError: If WAV container or audio properties violate constraints.
+    - Container: valid RIFF/WAVE (UnsupportedWAVMediaTypeError)
+    - Encoding: uncompressed linear PCM / format 1 (UnsupportedWAVMediaTypeError)
+    - Sample width: 16-bit (UnsupportedWAVPropertiesError)
+    - Channels: 1 / mono (UnsupportedWAVPropertiesError)
+    - Sample rate: 8,000 to 48,000 Hz inclusive (UnsupportedWAVPropertiesError)
+    - Duration: 0.5 to 30.0 seconds inclusive (UnsupportedWAVPropertiesError)
+    - Structure: non-truncated, correct size, aligned frames, valid headers (MalformedWAVError)
     """
     if len(audio_bytes) < 44:
         raise MalformedWAVError("WAV data is truncated or too short for a standard header.")
 
     if audio_bytes[:4] != b"RIFF" or audio_bytes[8:12] != b"WAVE":
-        raise InvalidWAVFormatError("Content is not a valid RIFF/WAVE container.")
+        raise UnsupportedWAVMediaTypeError("Content is not a valid RIFF/WAVE container.")
 
     riff_declared_size = struct.unpack("<I", audio_bytes[4:8])[0]
     expected_riff_size = len(audio_bytes) - 8
@@ -107,7 +106,6 @@ def validate_and_extract_wav_metadata(audio_bytes: bytes) -> WAVMetadata:
 
         offset += chunk_size
 
-        # Verify padding byte existence for odd-sized RIFF chunks
         padding = chunk_size % 2
         if padding > 0:
             if offset + padding > total_len:
@@ -117,24 +115,25 @@ def validate_and_extract_wav_metadata(audio_bytes: bytes) -> WAVMetadata:
     if not fmt_found or not data_found:
         raise MalformedWAVError("Missing required WAV fmt or data chunk.")
 
-    # Validate WAV properties
+    # Validate Container / Media Type
     if audio_format != 1:  # 1 == WAVE_FORMAT_PCM
-        raise InvalidWAVFormatError(
+        raise UnsupportedWAVMediaTypeError(
             f"Unsupported WAV encoding format ({audio_format}). Only uncompressed PCM is supported."
         )
 
+    # Validate Audio Properties
     if channels != 1:
-        raise InvalidWAVFormatError(
+        raise UnsupportedWAVPropertiesError(
             f"Unsupported channel count ({channels}). Only mono (1 channel) is supported."
         )
 
     if bits_per_sample != 16:
-        raise InvalidWAVFormatError(
+        raise UnsupportedWAVPropertiesError(
             f"Unsupported sample width ({bits_per_sample} bits). Only 16-bit PCM is supported."
         )
 
     if sample_rate < 8000 or sample_rate > 48000:
-        raise InvalidWAVFormatError(
+        raise UnsupportedWAVPropertiesError(
             f"Sample rate {sample_rate} Hz is out of the supported range (8000-48000 Hz)."
         )
 
@@ -159,7 +158,7 @@ def validate_and_extract_wav_metadata(audio_bytes: bytes) -> WAVMetadata:
     duration = frame_count / sample_rate
 
     if duration < 0.5 or duration > 30.0:
-        raise InvalidWAVFormatError(
+        raise UnsupportedWAVPropertiesError(
             f"Audio duration {duration:.2f}s is out of the supported range (0.5-30.0s)."
         )
 
