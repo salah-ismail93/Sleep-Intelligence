@@ -50,10 +50,10 @@
 
 - [ ] Add configuration validation and structured logging.
 - [ ] Review all API error responses and security-sensitive logging.
-- [ ] Pin or otherwise lock dependency versions for reproducibility.
+- [x] Pin or otherwise lock dependency versions for reproducibility.
 - [ ] Add deployment and environment setup documentation.
 - [x] Complete the professional README.
-- [ ] Verify the public repository contains no secrets, generated data, or
+- [x] Verify the public repository contains no secrets, generated data, or
   private research artifacts.
 - [ ] Prepare the final course demonstration.
 
