@@ -48,14 +48,14 @@
 
 ## Remaining Platform Work
 
-- [ ] Add configuration validation and structured logging.
-- [ ] Review all API error responses and security-sensitive logging.
+- [x] Add environment-based configuration validation.
+- [x] Review all API error responses and security-sensitive logging.
 - [x] Pin or otherwise lock dependency versions for reproducibility.
 - [ ] Add deployment and environment setup documentation.
 - [x] Complete the professional README.
 - [x] Verify the public repository contains no secrets, generated data, or
   private research artifacts.
-- [ ] Prepare the final course demonstration.
+- [x] Prepare the final course demonstration.
 
 ## Deferred Research Enhancements
 

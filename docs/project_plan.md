@@ -87,7 +87,6 @@ Status: Complete.
 
 Status: Planned.
 
-- Add configuration validation and structured logging.
 - Review API errors, timeouts, and resource limits.
 - Complete the professional README and deployment instructions.
 - Verify the public repository contains no secrets or research-sensitive data.
