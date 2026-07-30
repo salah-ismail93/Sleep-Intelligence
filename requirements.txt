@@ -6,3 +6,4 @@ pytest
 httpx2
 python-multipart
 numpy
+google-genai
