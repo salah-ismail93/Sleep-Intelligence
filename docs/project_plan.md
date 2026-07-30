@@ -56,6 +56,7 @@ because they require state, gyroscope data, or streaming input.
 
 Status: Planned.
 
+- Enforce the documented PCM WAV input contract.
 - Implement a local WAV signal-processing detector.
 - Keep audio processing independent of FastAPI.
 - Integrate it through the existing snore service.

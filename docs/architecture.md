@@ -51,7 +51,8 @@ Version 1 algorithm responsibilities:
 
 - `posture`: relative-quaternion calculation, gravity projection, and stateless
   deterministic posture classification.
-- `snore`: local WAV signal processing, planned.
+- `snore`: local signal processing for validated, uncompressed 16-bit mono PCM
+  WAV clips, planned.
 - `scoring`: deterministic sleep scoring, planned.
 
 The posture algorithm is the research contribution, but it is not labeled as

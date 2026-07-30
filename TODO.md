@@ -14,8 +14,11 @@
 
 ## Next — Version 1 Snore Detection
 
-- [ ] Define the Version 1 WAV signal-processing policy and supported WAV
+- [x] Define the Version 1 WAV signal-processing policy and supported WAV
   properties.
+- [ ] Implement WAV contract validation with deterministic client errors.
+- [ ] Add boundary tests for encoding, sample width, channels, sample rate,
+  duration, truncation, and upload size.
 - [ ] Implement pure audio decoding and feature extraction.
 - [ ] Implement the non-ML snore decision logic.
 - [ ] Replace the snore service placeholder.

@@ -20,4 +20,5 @@ detection, Ollama, and Gemini integrations remain planned work.
 - [Project plan](docs/project_plan.md)
 - [Architecture](docs/architecture.md)
 - [Posture API contract](docs/posture_api_contract.md)
+- [Snore API contract](docs/snore_api_contract.md)
 - [Project TODOs](TODO.md)
