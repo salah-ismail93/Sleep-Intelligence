@@ -139,7 +139,7 @@ python -m uvicorn app.main:app --reload
 Open the interactive API documentation at
 `http://127.0.0.1:8000/docs`.
 
-### 6. Run automated tests
+### 6. Run automated tests (must run this command in sudo or administrator)
 
 ```bash
 python -m pytest -q
